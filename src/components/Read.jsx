@@ -1,34 +1,34 @@
-import Movies from "./Movies" //imports movies to display
-export default function Read() {
-    const movies = [ //Stores the movies in an array
-  {
-    "Title": "Avengers: Infinity War",
-    "Year": "2018",
-    "imdbID": "tt4154756",
-    "Type": "movie",
-    "Poster": "https://m.media-amazon.com/images/M/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg"
-  },
-  {
-    "Title": "Captain America: Civil War",
-    "Year": "2016",
-    "imdbID": "tt3498820",
-    "Type": "movie",
-    "Poster": "https://m.media-amazon.com/images/M/MV5BMjQ0MTgyNjAxMV5BMl5BanBnXkFtZTgwNjUzMDkyODE@._V1_SX300.jpg"
-  },
-  {
-    "Title": "World War Z",
-    "Year": "2013",
-    "imdbID": "tt0816711",
-    "Type": "movie",
-    "Poster": "https://m.media-amazon.com/images/M/MV5BNDQ4YzFmNzktMmM5ZC00MDZjLTk1OTktNDE2ODE4YjM2MjJjXkEyXkFqcGdeQXVyNTA4NzY1MzY@._V1_SX300.jpg"
-  }
-]
+
+import Movies from "./Movies";
+import { useEffect, useState } from "react";
+import axios from "axios"; // Imports axios
+
+// Function that fetches and displays the movie data
+function Read() {
+  // Creates state to store the movies returned by the API
+  const [movies, setMovies] = useState([]);
+
+  // Runs the effect when the component loads
+  useEffect(() => {
+    // Sends an HTTP GET request to retrieve the movie data
+    axios
+      .get("https://data-rep-mern-application.github.io/dataserver/movies.json")
+      .then((response) => {
+        // Stores the movie array from the API
+        setMovies(response.data.myArray);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
-  <div>
-  <h1>Read</h1>
-  <Movies movies={movies}></Movies> //Passes the array to Movies.jsx
-  </div>
-
- ) 
+    <div>
+      <h2>This is my Read Component.</h2>
+      {/* Passes the movie data to the Movies component */}
+      <Movies movies={movies} />
+    </div>
+  );
 }
+
+export default Read;
